@@ -1,5 +1,19 @@
 ﻿@page "/tests/modals";
 <Row>
+   <Column>
+      <Card Margin="Margin.Is4.OnY">
+         <CardHeader>
+               <CardTitle>Modals (Close bug)</CardTitle>
+         </CardHeader>
+         <CardBody>
+            <Button Color="Color.Primary" Clicked="@(() => modalShown = true)">
+               Buggy modal
+            </Button>
+         </CardBody>
+      </Card>
+   </Column>
+</Row>
+<Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
@@ -100,6 +114,20 @@
         </Card>
     </Column>
 </Row>
+
+<Modal @bind-Visible=modalShown Closed=@(() => {})>
+    <ModalContent Size="@modalSize" Centered="@centered">
+        <ModalHeader>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody MaxHeight="@maxHeight">
+           Modal Body
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked=@(() => modalShown = false)>Cancel</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
 
 <Modal @ref="modalRef" Animated="animation" AnimationDuration="animationDuration">
     <ModalContent Size="@modalSize" Centered="@centered">
@@ -219,16 +247,17 @@
     </ModalContent>
 </Modal>
 @code {
-    private Modal modalRef;
-    private Modal modalRef2;
-    private Modal defaultModalRef;
-    private Modal lazyModalRef;
-    private Modal lazyReloadModalRef;
-    private bool centered = false;
-    private ModalSize modalSize = ModalSize.Default;
-    private int? maxHeight = null;
-    private bool animation = true;
-    private int animationDuration = 150;
+   private Modal modalRef;
+   private Modal modalRef2;
+   private Modal defaultModalRef;
+   private Modal lazyModalRef;
+   private Modal lazyReloadModalRef;
+   private bool centered = false;
+   private ModalSize modalSize = ModalSize.Default;
+   private int? maxHeight = null;
+   private bool animation = true;
+   private int animationDuration = 150;
+   private bool modalShown;
 
     private Task ShowModal( ModalSize modalSize, int? maxHeight = null, bool centered = false )
     {
